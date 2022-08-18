@@ -7,7 +7,8 @@ Data for scheduling of MARSIS Radar operations
 
 **Legend of data files:**
 
-0. ORBIT INFO: main informations about spacecraft orbits from 04/01/2004 (orbit 1) to 01/01/2026 (orbit 27764)
+0.1. ORBIT INFO: main informations about spacecraft orbits from 04/01/2004 (orbit 1) to 01/01/2026 (orbit 27764)
+0.2. RegionOfInterest: (x,y) coordinates defining the contour of the areas with higher observation preference
 1. Ephemeris time: time in seconds of the data sampling. The delta time is of 1.866 seconds.
 2. Local true solar time: 
 3. Mars solar longitude: 

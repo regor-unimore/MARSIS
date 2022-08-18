@@ -4,10 +4,10 @@ Data for scheduling of MARSIS Radar operations
 ## Legend of data files:
 1. Ephemeris time: time in seconds of the data sampling. The delta time is of 1.866 seconds.
 2. Local true solar time: 
-3. Mars solar longitude
+3. Mars solar longitude: 
 4. Mars sun distance: (remove ?)
 5. Orbit number: id of the orbit travelled by the radar in the corresponding ephemeris time
-6. Roughness: ???
+6. Roughness: to upload
 7. Solar zenith angle: angle between the sun's rays and the vertical direction in the corresponding ephemeris time. From this information it is possible to compute the sun elevation angle (= 90 - solar zenith angle)
 8. Spacecraft altitude: altitude of the radar with respect to Mars' ground in the corresponding ephemeris time
 9. Sub_sc_latitude: latitude of the radar in the corresponding ephemeris time

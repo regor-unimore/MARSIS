@@ -1,12 +1,7 @@
 # MARSIS
 Data for scheduling of MARSIS Radar operations
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
 
-
-
+&nbsp;
 
 **Legend of data files:**
 

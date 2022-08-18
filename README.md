@@ -1,7 +1,7 @@
 # MARSIS
 Data for scheduling of MARSIS Radar operations
 
-## Legend of data files:
+### Legend of data files:
 1. Ephemeris time: time in seconds of the data sampling. The delta time is of 1.866 seconds.
 2. Local true solar time: 
 3. Mars solar longitude: 

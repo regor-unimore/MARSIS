@@ -7,7 +7,7 @@ This repository contains the companion code and instances for the paper "A Predi
 <ol>
     <li>list of the PIs and related features. Legend of columns:
         <ul>
-            <li>Id</li>
+            <li>Id of the PI</li>
             <li>x coordinate (m)</li>
             <li>y coordinate (m)</li>
             <li>PIAV: 1 if PI was already covered in the past; 0 otherwise</li>

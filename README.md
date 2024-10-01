@@ -27,7 +27,7 @@ This repository contains the companion code and instances for the paper "A Predi
     <li> <i> AOI*_countour.dat </i> : lists of (x,y) defining the four areas of interest</li>
     <li> <i> day.txt </i> : date of each observation (observation = row)</li>
     <li> <i> orbit.txt </i> : orbit id of each observation (observation = row)</li>
-    <li> <i> ephemeris_time.txt </i> : sampled times for future observations; each observation starts at a sampled time and last for at most L seconds</li>
+    <li> <i> ephemeris_time.dat </i> : sampled times for future observations; each observation starts at a sampled time and last for at most L seconds</li>
     <li> <i> predictions.txt </i> : machine learning predictions for each sampled time</li>
 </ul>
 

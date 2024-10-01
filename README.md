@@ -1,25 +1,39 @@
-# MARSIS
-Data for scheduling of MARSIS Radar operations
-
-&nbsp;
+# A Predict-then-Optimize Approach for the Research of Underground Water on Mars
+This repository contains the companion code and instances for the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Benedetta Ferrari <sup>[1]</sup>, Maxence Delorme <sup>[2]</sup>, Manuel Iori <sup>[1]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
 
 ---
 
-**Legend of data files:**
+**Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
+<ol>
+    <li>list of the PIs and related features. Legend of columns:
+        <ul>
+            <li>Id</li>
+            <li>x coordinate (m)</li>
+            <li>y coordinate (m)</li>
+            <li>PIAV: 1 if PI was already covered in the past; 0 otherwise</li>
+            <li>initial quality (dB)</li>
+            <li>initial quality class</li>
+            <li>s_p: 1 if PI belongs to an AOI; 0 otherwise</li>
+        </ul>
+    </li>
+    <li>list of PIs covered by each observation (observation = row)</li>
+    <li>list of continuous quality associated to the PIs in each observation (machine learning predictions)</li>
+    <li>list of quality classes associated to the PIs in each observation</li>
+</ol>
 
-0. General data
-    - ORBIT INFO: main informations about spacecraft orbits from 04/01/2004 (orbit 1) to 01/01/2026 (orbit 27764)
-    - RegionOfInterest: (x,y) coordinates defining the contour of the areas with higher observation preference
-1. Ephemeris time: time in seconds of the data sampling. The delta time is 1.866 seconds.
-2. Local true solar time: 
-3. Mars solar longitude: 
-4. Mars sun distance: (remove ?)
-5. Orbit number: id of the orbit travelled by the radar in the corresponding ephemeris time
-6. Roughness: to upload
-7. Solar zenith angle: angle between the sun's rays and the vertical direction in the corresponding ephemeris time. Starting from this information it is possible to compute the sun elevation angle (= 90 - solar zenith angle)
-8. Spacecraft altitude: altitude of the spacecraft with respect to Mars' ground in the corresponding ephemeris time
-9. Sub_sc_latitude: latitude of the spacecraft in the corresponding ephemeris time
-10. Sub_sc_longitude: longitude of the spacecraft in the corresponding ephemeris time
-11. X: x-position of the spacecraft in the corresponding ephemeris time
-12. Y: y-position of the spacecraft in the corresponding ephemeris time
+**General** contains files that can be used in combination with each instance. Specifically:
+<ul>
+    <li> <i> SouthPole_contour.dat </i> : list of (x,y) defining the contour of the South Pole</li>
+    <li> <i> AOI*_countour.dat </i> : lists of (x,y) defining the four areas of interest</li>
+    <li> <i> day.txt </i> : date of each observation (observation = row)</li>
+    <li> <i> orbit.txt </i> : orbit id of each observation (observation = row)</li>
+    <li> <i> ephemeris_time.txt </i> : sampled times for future observations; each observation starts at a sampled time and last for at most L seconds</li>
+    <li> <i> predictions.txt </i> : machine learning predictions for each sampled time</li>
+</ul>
 
+---
+
+[1] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>
+[2] Department of Econometrics and Operations Research, Tilburg University, 5037 AB Tilburg, The Netherlands. <br>
+[3] Department of Information Engineering, University of Florence, Via di Santa Marta, 3, Florence, 50139, Italy. <br>
+[4] Institute of Radioastronomy, Italian National Institute of Astrophysics, Via Piero Gobetti 101, Bologna 40129, Italy. <br>

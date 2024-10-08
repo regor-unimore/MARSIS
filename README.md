@@ -31,6 +31,9 @@ This repository contains the companion code and instances for the paper "A Predi
     <li> <i> predictions.txt </i> : machine learning predictions for each sampled time</li>
 </ul>
 
+**MARSIS_dataset_2005_2021**:historical dataset, accessible at https://drive.google.com/file/d/1yfUDtKWk9R5HVsB9l4kgbGEa-UPp3bIV/view?pli=1
+**MARSIS_dataset_2023_2025**:dataset for "future" planning
+
 ---
 
 [1] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>

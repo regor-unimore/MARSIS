@@ -1,5 +1,5 @@
 # A Predict-then-Optimize Approach for the Research of Underground Water on Mars
-This repository contains the companion code and instances for the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Benedetta Ferrari <sup>[1]</sup>, Maxence Delorme <sup>[2]</sup>, Manuel Iori <sup>[1]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
+This repository contains the instances for the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
 
 ---
 
@@ -37,7 +37,7 @@ This repository contains the companion code and instances for the paper "A Predi
 
 ---
 
-[1] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>
-[2] Department of Econometrics and Operations Research, Tilburg University, 5037 AB Tilburg, The Netherlands. <br>
+[1] Department of Econometrics and Operations Research, Tilburg University, 5037 AB Tilburg, The Netherlands. <br>
+[2] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>
 [3] Department of Information Engineering, University of Florence, Via di Santa Marta, 3, Florence, 50139, Italy. <br>
 [4] Institute of Radioastronomy, Italian National Institute of Astrophysics, Via Piero Gobetti 101, Bologna 40129, Italy. <br>

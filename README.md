@@ -1,5 +1,5 @@
 # A Predict-then-Optimize Approach for the Research of Underground Water on Mars
-This repository contains the instances for the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
+This repository contains the resources of the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
 
 ---
 
@@ -30,6 +30,8 @@ This repository contains the instances for the paper "A Predict-then-Optimize Ap
     <li> <i> ephemeris_time.dat </i> : sampled times for future observations; each observation starts at a sampled time and last for at most L seconds</li>
     <li> <i> predictions.txt </i> : machine learning predictions for each sampled time</li>
 </ul>
+
+**Code** contains the python code to solve the ILP model with Gurobi solver and a visualization template for the model solution. The codes take in input the name of the instance to be solved (or visualized), and read all the necessary input files. Note that in the ILP N, W, and &beta; are set to their deafult values, and can be changed directly in the code.
 
 **MARSIS_dataset_2005_2021**: historical dataset, accessible at https://drive.google.com/file/d/1yfUDtKWk9R5HVsB9l4kgbGEa-UPp3bIV/view?pli=1
 

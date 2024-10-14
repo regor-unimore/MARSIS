@@ -1,6 +1,7 @@
 # A Predict-then-Optimize Approach for the Research of Underground Water on Mars
 This repository contains the resources of the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
 
+![Logo Calipso](https://drive.google.com/file/d/13t7N0C6avMITT70ZcaFKd05UL0gVBwm2/view?usp=sharing)
 ---
 
 **Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
@@ -8,12 +9,12 @@ This repository contains the resources of the paper "A Predict-then-Optimize App
     <li>list of the PIs and related features. Legend of columns:
         <ul>
             <li>Id of the PI</li>
-            <li>x coordinate (m)</li>
-            <li>y coordinate (m)</li>
+            <li>x<sub>p</sub>: x coordinate (m)</li>
+            <li>y<sub>p</sub>: y coordinate (m)</li>
             <li>PIAV: 1 if PI was already covered in the past; 0 otherwise</li>
             <li>initial quality (dB)</li>
             <li>initial quality class</li>
-            <li>s_p: 1 if PI belongs to an AOI; 0 otherwise</li>
+            <li>w_p: 1 if PI belongs to an AOI; 0 otherwise</li>
         </ul>
     </li>
     <li>list of PIs covered by each observation (observation = row)</li>

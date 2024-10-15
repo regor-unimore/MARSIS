@@ -1,7 +1,6 @@
 # A Predict-then-Optimize Approach for the Research of Underground Water on Mars
 This repository contains the resources of the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
 
-![Logo Calipso](https://drive.google.com/file/d/13t7N0C6avMITT70ZcaFKd05UL0gVBwm2/view?usp=sharing)
 ---
 
 **Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
@@ -11,10 +10,10 @@ This repository contains the resources of the paper "A Predict-then-Optimize App
             <li>Id of the PI</li>
             <li>x<sub>p</sub>: x coordinate (m)</li>
             <li>y<sub>p</sub>: y coordinate (m)</li>
-            <li>PIAV: 1 if PI was already covered in the past; 0 otherwise</li>
-            <li>initial quality (dB)</li>
-            <li>initial quality class</li>
-            <li>w_p: 1 if PI belongs to an AOI; 0 otherwise</li>
+            <li>cov<sub>p</sub>: 1 if PI was already covered in the past; 0 otherwise</li>
+            <li>q<sub>p</sub>: initial quality (dB)</li>
+            <li>c<sub>p</sub>: initial quality class</li>
+            <li>w<sub>p</sub>: 1 if PI belongs to an AOI; 0 otherwise</li>
         </ul>
     </li>
     <li>list of PIs covered by each observation (observation = row)</li>
@@ -44,3 +43,6 @@ This repository contains the resources of the paper "A Predict-then-Optimize App
 [2] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>
 [3] Department of Information Engineering, University of Florence, Via di Santa Marta, 3, Florence, 50139, Italy. <br>
 [4] Institute of Radioastronomy, Italian National Institute of Astrophysics, Via Piero Gobetti 101, Bologna 40129, Italy. <br>
+
+We kindly acknowledge financial support by the Italian Ministry of University and Research, under project PRIN2022PNRR - M4C2INV1.1, NextGenerationEU - Award 1409/2022 - Project Calipso, grant n. P2022XF72W.
+

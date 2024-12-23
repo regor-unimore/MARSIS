@@ -1,8 +1,3 @@
-# A Predict-then-Optimize Approach for the Research of Underground Water on Mars
-This repository contains the resources of the paper "A Predict-then-Optimize Approach for the Research of Underground Water on Mars" by Maxence Delorme <sup>[1]</sup>, Benedetta Ferrari <sup>[2]</sup>, Manuel Iori <sup>[2]</sup>, Marco Lippi <sup>[3]</sup>, and Roberto Orosei <sup>[4]</sup>.
-
----
-
 **Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
 <ol>
     <li>list of the PIs and related features. Legend of columns:
@@ -33,16 +28,8 @@ This repository contains the resources of the paper "A Predict-then-Optimize App
 
 **Code** contains the python code to solve the ILP model with Gurobi solver and a visualization template for the model solution. The codes take in input the name of the instance to be solved (or visualized), and read all the necessary input files. Note that in the ILP N, W, and &beta; are set to their deafult values, and can be changed directly in the code.
 
+**Computational Results**: computational results for all tested algorithms
+
 **MARSIS_dataset_2005_2021**: historical dataset, accessible at https://drive.google.com/file/d/1yfUDtKWk9R5HVsB9l4kgbGEa-UPp3bIV/view?pli=1
 
 **MARSIS_dataset_2023_2025**: dataset for "future" planning
-
----
-
-[1] Department of Econometrics and Operations Research, Tilburg University, 5037 AB Tilburg, The Netherlands. <br>
-[2] Department of Science and Methods for Engineering, University of Modena and Reggio Emilia, Via Giovanni Amendola 2, Reggio Emilia 42122, Italy. <br>
-[3] Department of Information Engineering, University of Florence, Via di Santa Marta, 3, Florence, 50139, Italy. <br>
-[4] Institute of Radioastronomy, Italian National Institute of Astrophysics, Via Piero Gobetti 101, Bologna 40129, Italy. <br>
-
-We kindly acknowledge financial support by the Italian Ministry of University and Research, under project PRIN2022PNRR - M4C2INV1.1, NextGenerationEU - Award 1409/2022 - Project Calipso, grant n. P2022XF72W.
-

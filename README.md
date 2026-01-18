@@ -24,6 +24,8 @@
     <li> <i> orbit.txt </i> : orbit id of each observation (observation = row)</li>
     <li> <i> ephemeris_time.dat </i> : sampled times for future observations; each observation starts at a sampled time and last for at most L seconds</li>
     <li> <i> predictions.txt </i> : machine learning predictions for each sampled time</li>
+    <li> <i> x.txt </i> : x coordinate for each sampled time</li>
+    <li> <i> y.txt </i> : y coordinate for each sampled time</li>
 </ul>
 
 **Code** contains the python code to solve the ILP model with Gurobi solver and a visualization template for the model solution. The codes take in input the name of the instance to be solved (or visualized), and read all the necessary input files. Note that in the ILP N, W, and &beta; are set to their deafult values, and can be changed directly in the code.

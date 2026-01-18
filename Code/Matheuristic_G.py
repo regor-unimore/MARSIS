@@ -75,10 +75,10 @@ with open(f"H2_{name}.txt", "r") as file:
     file.readline()
     selected_h2 = [int(file.readline()) for i in range(nO)]
 
-with open("x_2023_2025.dat", "r") as file:
+with open("x.dat", "r") as file:
     x = [float(line) for line in file.readlines()]
 
-with open("y_2023_2025.dat", "r") as file:
+with open("y.dat", "r") as file:
     y = [float(line) for line in file.readlines()]
 
 # Associate each observation starting point to an angle
@@ -259,3 +259,4 @@ f.write('Average number of PI covered = ' + str(mean(coverture_values)) + '\n')
 f.write('Average number of iterations = ' + str(mean(iter_values)) + '\n')
 f.write('Average total time = ' + str(mean(time_values)) + '\n\n')
 f.close()
+

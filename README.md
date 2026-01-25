@@ -1,3 +1,10 @@
+*Machine Learning (ML)*
+**Data** 
+
+**Code**
+
+*Optimization (Opt)*
+
 **Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
 <ol>
     <li>list of the PIs and related features. Legend of columns:

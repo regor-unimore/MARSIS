@@ -1,7 +1,14 @@
-*Machine Learning (ML)*
-**Data** 
+This repository contains the tested instances and code for all algorithms discussed in the paper "A Predict-then-Optimize Approach for the 
+Research of Underground Water on Mars" by Benedetta Ferrari, Maxence Delorme, Manuel Iori, Marco Lippi and Roberto Orosei. 
 
-**Code**
+The material is divided into "Machine Learning" and "Optimization" data/code, to better distinguish the two part of the proposed predict-then-optimize approach. 
+All algorithms are coded in Python and the ILP model require the commercial solver Gurobi (we used version 11.0.1). In the followinf the content of each folder is described:
+
+*Machine Learning (ML)*
+
+**Data** contains the link to access to the historical dataset and the list of orbit to exclude during training as they were considered compromised by solar events. It also contains the dataset for "future" planning, used to generate the predictions and the optimization istances (MARSIS_dataset_2023_2025).
+
+**Code** contains the algorithms setting used to train the five regression models, based on scikit-learn package and keras (for the neural network)
 
 *Optimization (Opt)*
 
@@ -39,6 +46,6 @@
 
 **Computational Results**: computational results for all tested algorithms
 
-**MARSIS_dataset_2005_2021**: historical dataset, accessible at https://drive.google.com/file/d/1yfUDtKWk9R5HVsB9l4kgbGEa-UPp3bIV/view?pli=1
 
-**MARSIS_dataset_2023_2025**: dataset for "future" planning
+
+

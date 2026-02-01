@@ -4,10 +4,10 @@ from gurobipy import GRB
 import argparse
 
 # Define INSTANCE
-parser = argparse.ArgumentParser(description="Code to solve the ILP model")
-parser.add_argument('instance_name', type=str, help="Name of the instance")
-args = parser.parse_args()
-name = args.instance_name
+#parser = argparse.ArgumentParser(description="Code to solve the ILP model")
+#parser.add_argument('instance_name', type=str, help="Name of the instance")
+#args = parser.parse_args()
+#name = args.instance_name
 
 name = 'M_10_268_4'
 

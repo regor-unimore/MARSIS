@@ -28,7 +28,7 @@ W = [1, 1]              # [1/beta, 1], score for AOI
 #  Information on PIs
 cPIAV = []
 wPI = []
-with open(f"{name}/{name}(1).txt", 'r') as file:
+with open(f"Opt-instance/{name}/{name}(1).txt", 'r') as file:
     lines = file.readlines()
     nPI = len(lines)        # number of PI
     for line in lines:

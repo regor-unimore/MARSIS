@@ -55,7 +55,6 @@ with open(f"H2_{name}.txt", "r") as file:
     obj = float(file.readline().split("=")[1])
     file.readline()
     file.readline()
-    file.readline()
     selected_h2 = [int(file.readline()) for i in range(nO)]
 
 # Ranges of observations belonging to the same day

@@ -1,5 +1,5 @@
 from statistics import mean
-import parser
+import argparse
 import numpy as np
 import time
 import gurobipy as gp
@@ -69,7 +69,6 @@ with open(f"orbit.txt", "r") as file:
 # Heuristic solution used to initialize the x variables
 with open(f"H2_{name}.txt", "r") as file:
     obj = float(file.readline().split("=")[1])
-    file.readline()
     file.readline()
     file.readline()
     selected_h2 = [int(file.readline()) for i in range(nO)]

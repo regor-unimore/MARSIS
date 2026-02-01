@@ -6,13 +6,13 @@ All algorithms are coded in Python and the ILP model require the commercial solv
 
 *Machine Learning (ML)*
 
-**Data** contains the link to access to the historical dataset and the list of orbit to exclude during training, as they were compromised by solar events. It also contains the dataset for "future" planning, used to generate the predictions and the optimization istances (MARSIS_dataset_2023_2025).
+**Data** contains the link to access to the historical dataset and the list of orbits to exclude during training, as they were compromised by solar events. It also contains the dataset for "future" planning, used to generate the predictions and the optimization istances (MARSIS_dataset_2023_2025).
 
-**Code** contains the algorithms setting used to train the five regression models, based on scikit-learn package and keras (for the neural network)
+**Code** contains the algorithms setting used to train the five regression models based on scikit-learn package and the keras-based neural network.
 
 *Optimization (Opt)*
 
-**Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. In each folder there are four .txt files, each corresponding to a different component of the instance:
+**Instances** contains a folder for each of our test instances, named as M_G_L_NC, where G is the granularity of the discretization, L the length of the observation, and NC the number of quality classes, as defined in the article. Each folder contains four .txt files, each corresponding to a different component of the instance:
 <ol>
     <li>list of the PIs and related features. Legend of columns:
         <ul>
@@ -42,9 +42,9 @@ All algorithms are coded in Python and the ILP model require the commercial solv
     <li> <i> y.dat </i> : y coordinate for each sampled time</li>
 </ul>
 
-**Code** contains the python code to solve the ILP model with Gurobi solver and a visualization template for the model solution. The codes take in input the name of the instance to be solved (or visualized), and read all the necessary input files. Note that in the ILP N, W, and &beta; are set to their deafult values, and can be changed directly in the code.
+**Code** contains the python code to solve all the optimization algorithms tested within the research. The codes take in input the name of the instance to be solved and read all the necessary input files. In each code, the solution parameters are set to their default values and can be changed directly in the code. Moreover, within the matheuristics codes (type R, C, and G) it is possible to chose with variant to execute. A further code is included to help visualize the solution.
 
-**Computational Results**: computational results for all tested algorithms
+**Computational Results**: computational results for all tested optimization algorithms.
 
 
 

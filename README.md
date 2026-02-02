@@ -4,13 +4,17 @@ Research of Underground Water on Mars" by Benedetta Ferrari, Maxence Delorme, Ma
 The material is divided into "Machine Learning" and "Optimization" data/code, to better distinguish the two parts of the proposed predict-then-optimize approach. 
 All algorithms are coded in Python and the ILP model require the commercial solver Gurobi (we used version 11.0.1). In the following, the content of each folder is described:
 
+-------
+
 *Machine Learning (ML)*
 
 **Data** contains the link to access to the historical dataset and the list of orbits to exclude during training, as they were compromised by solar events. It also contains the dataset for "future" planning, used to generate the predictions and the optimization istances (MARSIS_dataset_2023_2025).
 
 **Code** contains the algorithms setting used to train the five regression models based on scikit-learn package (**Test_KFold.py**) and the keras-based neural network (**Test_KFold_DNN_keras.py**).
 
-To train the regression models it is necessary to download the historical dataset and the list of orbits to remove and put them in the same folder as the code.
+--> To train the regression models, first download the historical dataset and the list of orbits to be excluded. Place both files in the same directory as the source code. Once the data are correctly set up, the training scripts can be executed!
+
+-------
 
 *Optimization (Opt)*
 
@@ -46,7 +50,7 @@ To train the regression models it is necessary to download the historical datase
 
 **Code** contains the python code to solve all the optimization algorithms tested within the research. The codes take in input the name of the instance to be solved and read all the necessary input files. In each code, the solution parameters are set to their default values and can be changed directly in the code. Moreover, within the matheuristics codes (type R, C, and G) it is possible to chose with variant to execute. A further code is included to help visualize the solution.
 
-To run the optimization algorithms it is necessary to download the instances' folders and the general data and put all them in the same folder as the code.
+--> To run the optimization algorithms, download the instance folders and the general data files, and place them in the same directory as the source code. Once the data are properly set up, the code can be executed. Note that, if necessary, default parameters (e.g., N and W) have be manually modified within the code before execution.
 
 **Computational Results**: computational results for all tested optimization algorithms.
 

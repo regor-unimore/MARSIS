@@ -16,15 +16,17 @@ from joblib import dump
 # Define INSTANCE
 parser = argparse.ArgumentParser(description="Code to train the regression models")
 parser.add_argument('model_name', type=str, help="Choose the regression model to train (linear_regression, knn, "
-                                                 "decision_tree, gr_boosting, random_forest")
+                                                 "decision_tree, gr_boosting, random_forest)")
 args = parser.parse_args()
 model_name = args.model_name
+
+#model_name = 'linear_regression'
 
 orbit_to_remove = []
 with open('orbit_to_remove') as file:
     for line in file:
         orbit_to_remove.append(float(line))
-df = pd.read_csv("all_past.csv", sep=";")
+df = pd.read_csv("MARSIS_historical_dataset.csv", sep=";")
 
 frequency_to_keep = 4000000.0
 df = df[df['FM_data_frequency'] == frequency_to_keep]

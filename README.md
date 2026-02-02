@@ -8,7 +8,9 @@ All algorithms are coded in Python and the ILP model require the commercial solv
 
 **Data** contains the link to access to the historical dataset and the list of orbits to exclude during training, as they were compromised by solar events. It also contains the dataset for "future" planning, used to generate the predictions and the optimization istances (MARSIS_dataset_2023_2025).
 
-**Code** contains the algorithms setting used to train the five regression models based on scikit-learn package and the keras-based neural network.
+**Code** contains the algorithms setting used to train the five regression models based on scikit-learn package (**Test_KFold.py**) and the keras-based neural network (**Test_KFold_DNN_keras.py**).
+
+To train the regression models it is necessary to download the historical dataset and the list of orbits to remove and put them in the same folder as the code.
 
 *Optimization (Opt)*
 
@@ -43,6 +45,8 @@ All algorithms are coded in Python and the ILP model require the commercial solv
 </ul>
 
 **Code** contains the python code to solve all the optimization algorithms tested within the research. The codes take in input the name of the instance to be solved and read all the necessary input files. In each code, the solution parameters are set to their default values and can be changed directly in the code. Moreover, within the matheuristics codes (type R, C, and G) it is possible to chose with variant to execute. A further code is included to help visualize the solution.
+
+To run the optimization algorithms it is necessary to download the instances' folders and the general data and put all them in the same folder as the code.
 
 **Computational Results**: computational results for all tested optimization algorithms.
 

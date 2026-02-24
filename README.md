@@ -2,7 +2,7 @@ This repository contains the tested instances and code for all algorithms discus
 Research of Underground Water on Mars" by Benedetta Ferrari, Maxence Delorme, Manuel Iori, Marco Lippi and Roberto Orosei. 
 
 The material is divided into "Machine Learning" and "Optimization" data/code, to better distinguish the two parts of the proposed predict-then-optimize approach. 
-All algorithms are coded in Python and the ILP model require the commercial solver Gurobi (we used version 11.0.1). In the following, the content of each folder is described:
+All algorithms are coded in Python and the ILP model requires the commercial solver Gurobi (we used version 11.0.1). In the following, the content of each folder is described:
 
 -------
 
@@ -48,7 +48,7 @@ All algorithms are coded in Python and the ILP model require the commercial solv
     <li> <i> y.dat </i> : y coordinate for each sampled time</li>
 </ul>
 
-**Code** contains the python code to solve all the optimization algorithms tested within the research. The codes take in input the name of the instance to be solved and read all the necessary input files. In each code, the solution parameters are set to their default values and can be changed directly in the code. Moreover, within the matheuristics codes (type R, C, and G) it is possible to chose with variant to execute. A further code is included to help visualize the solution.
+**Code** contains the python code to solve all the optimization algorithms tested within the research. The codes take in input the name of the instance to be solved and read all the necessary input files. In each code, the solution parameters are set to their default values and can be changed directly in the code. Moreover, within the matheuristics codes (type R, C, and G) it is possible to chose which variant to execute. A further code is included to help visualize the solution.
 
 --> To run the optimization algorithms, download the instance folders and the general data files, and place them in the same directory as the source code. Once the data are properly set up, the code can be executed. Note that, if necessary, default parameters (e.g., N and W) have be manually modified within the code before execution.
 

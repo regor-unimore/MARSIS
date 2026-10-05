@@ -1,13 +1,10 @@
 import time
-import argparse
+from opt_cli import make_parser, parse_args
 
 # Define INSTANCE
-#parser = argparse.ArgumentParser(description="Code to solve the H1 heuristic")
-#parser.add_argument('instance_name', type=str, help="Name of the instance")
-#args = parser.parse_args()
-#name = args.instance_name
-
-name = 'M_10_134_4'
+parser = make_parser("Code to solve the H1 heuristic")
+args = parse_args(parser)
+name = args.instance_name
 
 name_char = name.split('_')
 
@@ -19,14 +16,14 @@ gra = {'01': 1000, '02': 2000, '03': 3000, '05': 5000, '10': 10000}
 nO = 113651         # number of observations
 
 # Default settings
-N = 1                   # number of observation per day
-V = [0, 0.25, 0.5, 1]   # class quality weights
-W = [1, 1]              # [1/beta, 1], score for AOI
+N = args.N              # number of observation per day
+V = args.V              # class quality weights
+W = args.W              # [1/beta, 1], score for AOI
 
 #  Information on PIs
 cPIAV = []
 wPI = []
-with open(f"{name}/{name}(1).txt", 'r') as file:
+with open(args.instance_path / f"{name}(1).txt", 'r') as file:
     lines = file.readlines()
     nPI = len(lines)        # number of PI
     for line in lines:
@@ -35,17 +32,17 @@ with open(f"{name}/{name}(1).txt", 'r') as file:
         wPI.append(W[int(line[6])])
 
 #  PI in observations
-with open(f"{name}/{name}(2).txt", "r") as file:
+with open(args.instance_path / f"{name}(2).txt", "r") as file:
     PIinO = [[int(i) for i in line.strip().split("\t")]
             if line != "" and line != "\n" else [] for line in file.readlines()]
 
 # Class of the quality of PIs in observations, weighted through set V
-with open(f"{name}/{name}(4).txt", "r") as file:
+with open(args.instance_path / f"{name}(4).txt", "r") as file:
     cPIinO = [[V[int(i)] for i in line.strip().split("\t")]
                     if line != "" and line != "\n" else [] for line in file.readlines()]
 
 # Day of the observations
-with open(f"day.txt", "r") as file:
+with open(args.general_dir / "day.txt", "r") as file:
     day = [line for line in file.readlines()]
 
 ############################# MAIN #####################################
@@ -88,7 +85,7 @@ print("visited PI = ", sum(visited))
 print("execution time = ", t2 - t1)
 
 # save output
-f = open(f"H1_{name}.txt", "w+")
+f = open(args.output_dir / f"H1_{name}.txt", "w+")
 f.write(f"objective function = {ob}\nvisited PI = {sum(visited)}\nexecution time = {t2 - t1}\n")
 for i in selected:
     f.write("%d\n" % i)

@@ -1,15 +1,13 @@
 import time
 import gurobipy as gp
 from gurobipy import GRB
-import argparse
+from opt_cli import make_parser, parse_args, add_initial_solution_arg
 
 # Define INSTANCE
-parser = argparse.ArgumentParser(description="Code to solve the ILP model")
-parser.add_argument('instance_name', type=str, help="Name of the instance")
-args = parser.parse_args()
+parser = make_parser("Code to solve the Lagrangian relaxation")
+add_initial_solution_arg(parser)
+args = parse_args(parser)
 name = args.instance_name
-
-name = 'M_10_268_4'
 
 name_char = name.split('_')
 
@@ -21,14 +19,14 @@ gra = {'01': 1000, '02': 2000, '03': 3000, '05': 5000, '10': 10000}
 nO = 113651         # number of observations
 
 # Default settings
-N = 1                   # number of observation per day
-V = [0, 0.25, 0.5, 1]   # class quality weights
-W = [1, 1]              # [1/beta, 1], score for AOI
+N = args.N              # number of observation per day
+V = args.V              # class quality weights
+W = args.W              # [1/beta, 1], score for AOI
 
 #  Information on PIs
 cPIAV = []
 wPI = []
-with open(f"{name}/{name}(1).txt", 'r') as file:
+with open(args.instance_path / f"{name}(1).txt", 'r') as file:
     lines = file.readlines()
     nPI = len(lines)        # number of PI
     for line in lines:
@@ -37,21 +35,21 @@ with open(f"{name}/{name}(1).txt", 'r') as file:
         wPI.append(W[int(line[6])])
 
 #  PI in observations
-with open(f"{name}/{name}(2).txt", "r") as file:
+with open(args.instance_path / f"{name}(2).txt", "r") as file:
     PIinO = [[int(i) for i in line.strip().split("\t")]
             if line != "" and line != "\n" else [] for line in file.readlines()]
 
 # Class of the quality of PIs in observations, weighted through set V
-with open(f"{name}/{name}(4).txt", "r") as file:
+with open(args.instance_path / f"{name}(4).txt", "r") as file:
     cPIinO = [[V[int(i)] for i in line.strip().split("\t")]
                     if line != "" and line != "\n" else [] for line in file.readlines()]
 
 # Day of the observations
-with open("day.txt", "r") as file:
+with open(args.general_dir / "day.txt", "r") as file:
     day = [line for line in file.readlines()]
 
 # Heuristic solution used to initialize the x variables
-with open(f"H2_{name}.txt", "r") as file:
+with open(args.initial_solution, "r") as file:
     obj = float(file.readline().split("=")[1])
     file.readline()
     file.readline()
@@ -154,7 +152,7 @@ while delta > 0.5:
             if idx >= 0:
                 xo[idx] = 1  # select the observation with maximum value
                 for k in range(len(PIinO[idx])):
-                    y[PIinO[idx][k], cPIinO[idx][k]] += 1  # PI covered with quality c
+                    NumPC[PIinO[idx][k], cPIinO[idx][k]] += 1  # PI covered with quality c
 
     bestobj, bestsol, bestvis = retrieve_solution(xo, bestobj, bestsol, bestvis)  # retrieve real solution value (PI covered only once)
 
@@ -183,7 +181,7 @@ bestobj, bestsol, bestvis = solution(lambdaM, bestobj, bestsol, bestvis) # build
 
 t2 = time.time()  # end time
 
-f = open(f"LagrangianSolution_{name}.txt", "w+")
+f = open(args.output_dir / f"LagrangianSolution_{name}.txt", "w+")
 f.write(f"objective function = {bestobj}\nvisited PI = {bestvis}\ntotal time = {t2-t1}\nUB = {bestbound}\n")
 for i in range(nO):
     f.write("%d\n" % bestsol[i])

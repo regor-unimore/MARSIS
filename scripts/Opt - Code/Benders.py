@@ -1,16 +1,14 @@
 import time
-import argparse
 import gurobipy as gp
 import numpy as np
 from gurobipy import GRB
+from opt_cli import make_parser, parse_args, add_gurobi_args
 
 # Define INSTANCE
-#parser = argparse.ArgumentParser(description="Code to solve the Benders decomposition")
-#parser.add_argument('instance_name', type=str, help="Name of the instance")
-#args = parser.parse_args()
-#name = args.instance_name
-
-name = 'M_10_134_4'
+parser = make_parser("Code to solve the Benders decomposition")
+add_gurobi_args(parser, time_limit=3600)
+args = parse_args(parser)
+name = args.instance_name
 
 name_char = name.split('_')
 
@@ -22,14 +20,14 @@ gra = {'01': 1000, '02': 2000, '03': 3000, '05': 5000, '10': 10000}
 nO = 113651         # number of observations
 
 # Default settings
-N = 1                   # number of observation per day
-V = [0, 0.25, 0.5, 1]   # class quality weights
-W = [1, 1]              # [1/beta, 1], score for AOI
+N = args.N              # number of observation per day
+V = args.V              # class quality weights
+W = args.W              # [1/beta, 1], score for AOI
 
 #  Information on PIs
 cPIAV = []
 wPI = []
-with open(f"{name}/{name}(1).txt", 'r') as file:
+with open(args.instance_path / f"{name}(1).txt", 'r') as file:
     lines = file.readlines()
     nPI = len(lines)        # number of PI
     for line in lines:
@@ -38,16 +36,16 @@ with open(f"{name}/{name}(1).txt", 'r') as file:
         wPI.append(W[int(line[6])])
 
 #  PI in observations
-with open(f"{name}/{name}(2).txt", "r") as file:
+with open(args.instance_path / f"{name}(2).txt", "r") as file:
     PIinO = [[int(i) for i in line.strip().split("\t")]
             if line != "" and line != "\n" else [] for line in file.readlines()]
 
 # Day of the observations
-with open("day.txt", "r") as file:
+with open(args.general_dir / "day.txt", "r") as file:
     day = [line for line in file.readlines()]
 
 # Class of the quality of PIs in observations for each scenario s, weighted through set V
-with open(f"{name}/{name}(4).txt", "r") as file:
+with open(args.instance_path / f"{name}(4).txt", "r") as file:
     cPIinO= [[V[int(i)] for i in line.strip().split("\t")]
              if line != "" and line != "\n" else [] for line in file.readlines()]
 
@@ -74,8 +72,8 @@ def lazy(model, where):
 ############################## MASTER PROBLEM - MODEL #######################################
 t1 = time.time()  # start time
 model = gp.Model()
-model.setParam("TimeLimit", 3600)
-model.setParam(GRB.Param.Threads, 1)
+model.setParam("TimeLimit", args.time_limit)
+model.setParam(GRB.Param.Threads, args.threads)
 model.setParam(GRB.Param.Method, 2)
 model.Params.lazyConstraints = 1
 
@@ -118,7 +116,7 @@ print(f'model objective function = {theta.x}')
 print(f'real objective function = {obj}')
 print(f'number of PI visited = {coverture}')
 
-f = open(f"Benders_{name}.txt", "w")
+f = open(args.output_dir / f"Benders_{name}.txt", "w")
 f.write(f'objective function = {obj}\n')
 f.write(f'number of PI visited = {coverture}\n')
 f.write(f'total time = {t3-t1}\n')

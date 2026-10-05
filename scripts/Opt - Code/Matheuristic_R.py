@@ -1,21 +1,26 @@
 import random
 from statistics import mean
-import parser
 import numpy as np
 import time
 import gurobipy as gp
 from gurobipy import GRB
+from opt_cli import make_parser, parse_args, add_gurobi_args, add_initial_solution_arg
 
 # Define INSTANCE
-#parser = argparse.ArgumentParser(description="Code to solve the ILP model")
-#parser.add_argument('instance_name', type=str, help="Name of the instance")
-#parser.add_argument('variant_name', type=str, help="R1, R2 or R3")
-#args = parser.parse_args()
-#name = args.instance_name
-#variant = args.variant_name
-
-name = 'M_10_134_4'
-variant = 'R1'
+parser = make_parser("Code to solve the R matheuristics")
+parser.add_argument('variant_name', type=str, choices=['R1', 'R2', 'R3'], help="R1, R2 or R3")
+add_gurobi_args(parser, time_limit=360)
+add_initial_solution_arg(parser)
+parser.add_argument('--n-iter', type=int, default=20, help="Number of repetitions (one per random seed)")
+parser.add_argument('--max-time', type=float, default=3600, help="Time limit of each repetition (s)")
+parser.add_argument('--coeff0', type=float, default=0.85, help="Initial fixing coefficient")
+parser.add_argument('--step', type=float, default=0.10, help="Update step of the fixing coefficient")
+parser.add_argument('--limits', type=int, nargs=4, default=None,
+                    help="Iterations without improvement before each coefficient update "
+                         "(default depends on the granularity G, see 'limits' below)")
+args = parse_args(parser)
+name = args.instance_name
+variant = args.variant_name
 
 name_char = name.split('_')
 
@@ -27,9 +32,9 @@ gra = {'01': 1000, '02': 2000, '03': 3000, '05': 5000, '10': 10000}
 nO = 113651         # number of observations
 
 # Default settings
-N = 1                   # number of observation per day
-V = [0, 0.25, 0.5, 1]   # class quality weights
-W = [1, 1]              # [1/beta, 1], score for AOI
+N = args.N              # number of observation per day
+V = args.V              # class quality weights
+W = args.W              # [1/beta, 1], score for AOI
 
 #test parameters
 seeds_R1 = [3, 91, 572, 103, 4246, 9999, 19873, 14593, 75380, 91704, 2, 78, 412, 36, 97654, 2378, 456, 5, 10980, 3780]
@@ -37,11 +42,13 @@ seeds_R2 = [9, 71, 672, 193, 6846, 9099, 19073, 14093, 70380, 91004, 14, 34, 150
 seeds_R3 = [8, 51, 739, 291, 846, 5099, 12073, 1093, 30380, 81004, 88, 531, 7739, 8291, 1846, 4099, 22073, 13093, 70380, 51004]
 ttype = {'01': 'VLR', '02': 'LR', '03': 'MR', '05': 'HR', '10': 'VHR'}
 limits = {'VHR': [160, 80, 40, 20], 'HR': [80, 40, 20, 10], 'MR': [40, 20, 10, 5], 'LR': [20, 10, 5, 2], 'VLR': [10, 5, 2, 1]}
+if args.limits is not None:
+    limits[ttype[G]] = args.limits
 
 #  Information on PIs
 cPIAV = []
 wPI = []
-with open(f"{name}/{name}(1).txt", 'r') as file:
+with open(args.instance_path / f"{name}(1).txt", 'r') as file:
     lines = file.readlines()
     nPI = len(lines)        # number of PI
     for line in lines:
@@ -50,25 +57,25 @@ with open(f"{name}/{name}(1).txt", 'r') as file:
         wPI.append(W[int(line[6])])
 
 #  PI in observations
-with open(f"{name}/{name}(2).txt", "r") as file:
+with open(args.instance_path / f"{name}(2).txt", "r") as file:
     PIinO = [[int(i) for i in line.strip().split("\t")] if line != "" and line != "\n" else []
              for line in file.readlines()]
 
 # Class of the quality of PIs in observations, weighted through set V
-with open(f"{name}/{name}(4).txt", "r") as file:
+with open(args.instance_path / f"{name}(4).txt", "r") as file:
     cPIinO = [[V[int(i)] for i in line.strip().split("\t")] if line != "" and line != "\n" else []
               for line in file.readlines()]
 
 # Day of the observations
-with open(f"day.txt", "r") as file:
+with open(args.general_dir / "day.txt", "r") as file:
     day = [line for line in file.readlines()]
 
 # Orbit of the observations
-with open(f"orbit.txt", "r") as file:
+with open(args.general_dir / "orbit.txt", "r") as file:
     orbit = [line for line in file.readlines()]
 
 # Heuristic solution used to initialize the x variables
-with open(f"H2_{name}.txt", "r") as file:
+with open(args.initial_solution, "r") as file:
     obj = float(file.readline().split("=")[1])
     file.readline()
     file.readline()
@@ -125,8 +132,8 @@ def variable_fixing_R3():
 
 ######################### MODEL ####################################################
 model = gp.Model()
-model.setParam("TimeLimit", 360)
-model.setParam(GRB.Param.Threads, 1)
+model.setParam("TimeLimit", args.time_limit)
+model.setParam(GRB.Param.Threads, args.threads)
 model.setParam(GRB.Param.Method, 2)
 
 z = 0
@@ -160,9 +167,9 @@ model.addConstrs(NumObsPerDay[d] <= N for d in NumObsPerDay.keys())
 ######################### MODEL EXECUTION ###############################
 
 # parameters
-n_iter = 20
-step = 0.10
-coeff_0 = 0.85
+n_iter = args.n_iter
+step = args.step
+coeff_0 = args.coeff0
 
 obj_values = []
 coverture_values = []
@@ -186,7 +193,7 @@ for k in range(n_iter):
     if variant == 'R2': np.random.seed(seeds_R2[k])
     if variant == 'R3': np.random.seed(seeds_R3[k])
 
-    while tf < 3600:
+    while tf < args.max_time:
 
         # Update fixing coefficient
         iter_count += 1
@@ -236,7 +243,7 @@ for k in range(n_iter):
     coverture_values.append(coverture)
 
     # Save partial solutions
-    g = open(f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+    g = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
     g.write(f'Objective Value = {obj} \n')
     g.write(f'Number of PI covered = {coverture} \n')
     g.write(f'Total execution time = {tf} \n')
@@ -249,13 +256,13 @@ for k in range(n_iter):
     g.close()
 
     # Save final solution
-    f = open(f"{ttype[G]}_{coeff_0}_{step}_{variant}(sol)_{name}.txt", "a")
+    f = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}(sol)_{name}.txt", "a")
     f.write(f'Objective Value = {obj} \n')
     for i in selected:
         f.write("%d\n" % i)
     f.close()
 
-f = open(f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+f = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
 f.write('Max objective function = ' + str(max(obj_values)) + '\n')
 f.write('Max number of PI covered = ' + str(max(coverture_values)) + '\n')
 f.write('Max number of iterations = ' + str(max(iter_values)) + '\n')

@@ -12,6 +12,7 @@ parser.add_argument('variant_name', type=str, choices=['R1', 'R2', 'R3'], help="
 add_gurobi_args(parser, time_limit=360)
 add_initial_solution_arg(parser)
 parser.add_argument('--n-iter', type=int, default=20, help="Number of repetitions (one per random seed)")
+parser.add_argument('--first-iter', type=int, default=1, help="Index of the first repetition, i.e. of the first seed used")
 parser.add_argument('--max-time', type=float, default=3600, help="Time limit of each repetition (s)")
 parser.add_argument('--coeff0', type=float, default=0.85, help="Initial fixing coefficient")
 parser.add_argument('--step', type=float, default=0.10, help="Update step of the fixing coefficient")
@@ -44,8 +45,8 @@ policies = {1: [160, 80, 40, 20], 2: [80, 40, 20, 10], 3: [40, 20, 10, 5], 4: [2
 best_policy = {'10': 1, '05': 2, '03': 3, '02': 4, '01': 5}  # default updating policy for each granularity
 policy = args.policy if args.policy is not None else best_policy[G]
 limits = policies[policy]
-if not 1 <= args.n_iter <= len(seeds_R1):
-    parser.error(f"--n-iter must be between 1 and {len(seeds_R1)} (one repetition per available seed)")
+if not (args.first_iter >= 1 and args.n_iter >= 1 and args.first_iter + args.n_iter - 1 <= len(seeds_R1)):
+    parser.error(f"--first-iter and --n-iter must select repetitions between 1 and {len(seeds_R1)} (one per available seed)")
 
 #  Information on PIs
 cPIAV = []
@@ -170,6 +171,7 @@ model.addConstrs(NumObsPerDay[d] <= N for d in NumObsPerDay.keys())
 
 # parameters
 n_iter = args.n_iter
+reps = "" if (args.first_iter, n_iter) == (1, len(seeds_R1)) else f"_rep{args.first_iter}-{args.first_iter + n_iter - 1}"  # repetitions in the output file name
 step = args.step
 coeff_0 = args.coeff0
 
@@ -178,7 +180,7 @@ coverture_values = []
 time_values = []
 iter_values = []
 
-for k in range(n_iter):
+for k in range(args.first_iter - 1, args.first_iter - 1 + n_iter):
 
     t0 = time.time()  # starting time
     tf = 0  # total execution time
@@ -245,7 +247,7 @@ for k in range(n_iter):
     coverture_values.append(coverture)
 
     # Save partial solutions
-    g = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+    g = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}{reps}.txt", "a")
     g.write(f'Objective Value = {obj} \n')
     g.write(f'Number of PI covered = {coverture} \n')
     g.write(f'Total execution time = {tf} \n')
@@ -258,13 +260,13 @@ for k in range(n_iter):
     g.close()
 
     # Save final solution
-    f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}(sol)_{name}.txt", "a")
+    f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}(sol)_{name}{reps}.txt", "a")
     f.write(f'Objective Value = {obj} \n')
     for i in selected:
         f.write("%d\n" % i)
     f.close()
 
-f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}{reps}.txt", "a")
 f.write('Max objective function = ' + str(max(obj_values)) + '\n')
 f.write('Max number of PI covered = ' + str(max(coverture_values)) + '\n')
 f.write('Max number of iterations = ' + str(max(iter_values)) + '\n')

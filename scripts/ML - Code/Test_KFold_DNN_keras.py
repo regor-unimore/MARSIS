@@ -1,4 +1,6 @@
 import time
+import argparse
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -9,11 +11,26 @@ from keras.callbacks import EarlyStopping
 from sklearn.preprocessing import StandardScaler
 from joblib import dump
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+ML_DATA_DIR = REPO_ROOT / "data" / "ML - Data"
+
+parser = argparse.ArgumentParser(description="Code to train the neural network",
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('--dataset', type=Path, default=ML_DATA_DIR / "MARSIS_historical_dataset.csv",
+                    help="Historical dataset (to be downloaded from the link in data/ML - Data/MARSIS_historical_dataset)")
+parser.add_argument('--orbits-to-remove', type=Path, default=ML_DATA_DIR / "orbit_to_remove",
+                    help="List of the orbits to exclude from the training")
+parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "ML", help="Directory where results are saved")
+args = parser.parse_args()
+if not args.dataset.is_file():
+    parser.error(f"dataset {args.dataset} not found. Download it from the link in data/ML - Data/MARSIS_historical_dataset")
+args.output_dir.mkdir(parents=True, exist_ok=True)
+
 orbit_to_remove = []
-with open('orbit_to_remove') as file:
+with open(args.orbits_to_remove) as file:
     for line in file:
         orbit_to_remove.append(float(line))
-df = pd.read_csv("MARSIS_historical_dataset.csv", sep=";")
+df = pd.read_csv(args.dataset, sep=";")
 
 frequency_to_keep = 4000000.0
 df = df[df['FM_data_frequency'] == frequency_to_keep]
@@ -34,7 +51,7 @@ kf.get_n_splits(X)
 
 fold = -1
 y_all_pred = np.zeros(y.shape)
-f = open("MAE_nn_chrono.txt", "w")
+f = open(args.output_dir / "MAE_nn_chrono.txt", "w")
 t1 = time.time()
 for train_index, test_index in kf.split(X):
     fold = fold + 1
@@ -45,7 +62,7 @@ for train_index, test_index in kf.split(X):
     X_test = scaler.transform(X_test)
     f.write('TRAIN: ' + str(train_index)+'\n')
     f.write('TEST: ' + str(test_index)+'\n')
-    dump(scaler, f'scaler_chrono_{fold}.save')
+    dump(scaler, args.output_dir / f'scaler_chrono_{fold}.save')
 
     # Neural Network
     es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=10)
@@ -61,7 +78,7 @@ for train_index, test_index in kf.split(X):
     model.add(Dense(1, activation='relu'))
     model.compile(loss='mse', optimizer='adam', metrics=['mean_absolute_error'])
     model.fit(X_train, y_train, validation_split=0.1, epochs=1000, callbacks=[es])
-    save_model(model, f'nn_chrono_model_{fold}.keras')
+    save_model(model, str(args.output_dir / f'nn_chrono_model_{fold}.keras'))
     # evaluate the model
     _, train_mse = model.evaluate(X_train, y_train, verbose=0)
     _, test_mse = model.evaluate(X_test, y_test, verbose=0)
@@ -82,4 +99,4 @@ f.write(f'\nGlobal MAPE = {mean_absolute_percentage_error(y, y_all_pred)}')
 f.write(f'\nGlobal MSE = {mean_squared_error(y, y_all_pred)}')
 f.write(f'\nTime = {t3-t1}')
 f.close()
-np.savetxt("nn_y_all_pred_chrono.txt", y_all_pred)
+np.savetxt(args.output_dir / "nn_y_all_pred_chrono.txt", y_all_pred)

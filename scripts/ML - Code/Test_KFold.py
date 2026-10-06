@@ -1,6 +1,7 @@
 import time
 from statistics import mean
 import argparse
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -15,20 +16,30 @@ from sklearn.pipeline import make_pipeline
 from sklearn.base import clone
 from joblib import dump
 
-# Define INSTANCE
-parser = argparse.ArgumentParser(description="Code to train the regression models")
-parser.add_argument('model_name', type=str, help="Choose the regression model to train (linear_regression, knn, "
-                                                 "decision_tree, gr_boosting, random_forest)")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+ML_DATA_DIR = REPO_ROOT / "data" / "ML - Data"
+
+# Define MODEL
+parser = argparse.ArgumentParser(description="Code to train the regression models",
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('model_name', type=str, choices=['linear_regression', 'knn', 'decision_tree', 'gr_boosting', 'random_forest'],
+                    help="Regression model to train")
+parser.add_argument('--dataset', type=Path, default=ML_DATA_DIR / "MARSIS_historical_dataset.csv",
+                    help="Historical dataset (to be downloaded from the link in data/ML - Data/MARSIS_historical_dataset)")
+parser.add_argument('--orbits-to-remove', type=Path, default=ML_DATA_DIR / "orbit_to_remove",
+                    help="List of the orbits to exclude from the training")
+parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "ML", help="Directory where results are saved")
 args = parser.parse_args()
+if not args.dataset.is_file():
+    parser.error(f"dataset {args.dataset} not found. Download it from the link in data/ML - Data/MARSIS_historical_dataset")
+args.output_dir.mkdir(parents=True, exist_ok=True)
 model_name = args.model_name
 
-#model_name = 'linear_regression'
-
 orbit_to_remove = []
-with open('orbit_to_remove') as file:
+with open(args.orbits_to_remove) as file:
     for line in file:
         orbit_to_remove.append(float(line))
-df = pd.read_csv("MARSIS_historical_dataset.csv", sep=";")
+df = pd.read_csv(args.dataset, sep=";")
 
 frequency_to_keep = 4000000.0
 df = df[df['FM_data_frequency'] == frequency_to_keep]
@@ -53,7 +64,7 @@ algorithm = {
 kf = KFold(n_splits=10, shuffle=False)
 kf.get_n_splits(X)
 
-f = open(f"MAE_.txt", "w")
+f = open(args.output_dir / f"MAE_{model_name}.txt", "w")
 fold = -1
 y_all_pred = np.zeros(y.shape)
 
@@ -70,7 +81,7 @@ for train_index, test_index in kf.split(X, y):
     if model_name in ["knn", "linear_regression"]:
         model = make_pipeline(StandardScaler(), model)  # the fitted scaler is saved together with the model
     model.fit(X_train, y_train)
-    dump(model, f'{model_name}_fold{fold}.joblib')
+    dump(model, args.output_dir / f'{model_name}_fold{fold}.joblib')
     y_pred = model.predict(X_test)
     t2 = time.time()
 
@@ -86,5 +97,5 @@ f.write('\nGlobal MAPE = ' + str(mean_absolute_percentage_error(y, y_all_pred)))
 f.write('\nGlobal MSE = ' + str(mean_squared_error(y, y_all_pred)))
 f.write(f'\nTime = {t3-t0}')
 f.close()
-np.savetxt("y_all_pred_noantennas.txt", y_all_pred)
+np.savetxt(args.output_dir / f"y_all_pred_noantennas_{model_name}.txt", y_all_pred)
 

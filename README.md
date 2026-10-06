@@ -221,14 +221,23 @@ Each solution is given by 113,651 lines, one per observation, equal to 1 if the 
 ***Machine learning***
 --
 
-To train the regression models, first download the historical dataset from the link in `data/ML - Data/MARSIS_historical_dataset` and place it, together with the list of orbits to be excluded (`data/ML - Data/orbit_to_remove`), in the directory from which the scripts are run. Then, the training scripts can be executed:
+To train the regression models, first download the historical dataset from the link in `data/ML - Data/MARSIS_historical_dataset` and save it as `data/ML - Data/MARSIS_historical_dataset.csv`. The orbits listed in `data/ML - Data/orbit_to_remove` are excluded from the training. Then, the training scripts can be executed:
 
 ```
 python "scripts/ML - Code/Test_KFold.py" <model>          # model: linear_regression, knn, decision_tree, gr_boosting, random_forest
 python "scripts/ML - Code/Test_KFold_DNN_keras.py"
 ```
 
-Both scripts perform a 10-fold cross-validation and save the model trained in each fold, the error metrics of each fold and the overall ones, and the predictions for the whole dataset.
+Both scripts perform a 10-fold cross-validation and save in `output/ML/` (or in the directory given with `--output-dir`) the model trained in each fold, the error metrics of each fold and the overall ones, and the predictions for the whole dataset. A different location of the input files can be given with the options `--dataset` and `--orbits-to-remove`.
+
+| Code | Output files | Content |
+|---|---|---|
+| Test_KFold.py | `MAE_<model>.txt` | train and test indices, MAE, MAPE, MSE and execution time of each fold, and overall MAE, MAPE, MSE and time |
+| Test_KFold.py | `<model>_fold<k>.joblib` | model trained in fold k (for KNN and linear regression, together with the fitted standardization) |
+| Test_KFold.py | `y_all_pred_noantennas_<model>.txt` | prediction of each sample when it belongs to the test fold |
+| Test_KFold_DNN_keras.py | `MAE_nn_chrono.txt` | train and test indices, MAE, MAPE and MSE of each fold with the time elapsed since the start of the cross-validation, and overall MAE, MAPE, MSE and time |
+| Test_KFold_DNN_keras.py | `nn_chrono_model_<k>.keras`, `scaler_chrono_<k>.save` | neural network and fitted standardization of fold k |
+| Test_KFold_DNN_keras.py | `nn_y_all_pred_chrono.txt` | prediction of each sample when it belongs to the test fold |
 
 ***Reproducibility notes***
 --

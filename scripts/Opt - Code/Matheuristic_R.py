@@ -44,6 +44,8 @@ ttype = {'01': 'VLR', '02': 'LR', '03': 'MR', '05': 'HR', '10': 'VHR'}
 limits = {'VHR': [160, 80, 40, 20], 'HR': [80, 40, 20, 10], 'MR': [40, 20, 10, 5], 'LR': [20, 10, 5, 2], 'VLR': [10, 5, 2, 1]}
 if args.limits is not None:
     limits[ttype[G]] = args.limits
+if not 1 <= args.n_iter <= len(seeds_R1):
+    parser.error(f"--n-iter must be between 1 and {len(seeds_R1)} (one repetition per available seed)")
 
 #  Information on PIs
 cPIAV = []

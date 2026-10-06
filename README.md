@@ -69,13 +69,24 @@ All algorithms are coded in Python and the ILP model requires the commercial sol
 
 --> To run the optimization algorithms, download the instance folders and the general data files, and place them in the same directory as the source code. Once the data are properly set up, the code can be executed. Note that, if necessary, default parameters (e.g., N and W) have to be manually modified within the code before execution.
 
+***Execution order and computational cost***
+--
 
+The heuristic H2 must be run before the Lagrangian relaxation and the matheuristics, since they use the H2 solution as initial solution (by default, they read it from `output/H2_<instance>.txt`):
 
+```
+setup_data.py  -->  H1.py, H2.py, ILP Model.py, Benders.py         (independent of each other)
+                    H2.py  -->  Lagrangian.py, Matheuristic_R.py, Matheuristic_C.py, Matheuristic_G.py
+```
 
+The table below reports the computational effort required to reproduce each sheet of `results/Computational Results.xlsx`, computed from the times reported in the workbook (single thread, hardware described above). All runs are single-threaded and independent of each other, so they can be executed in parallel.
 
+| Experiment (workbook sheet) | Runs | Time limits | Total time |
+|---|---|---|---|
+| ILP model (*ILP*) | 40 | 3600 s per run | about 24 h (15 runs reach the time limit; 7 runs on G = 01 instances report no time) |
+| Heuristic H1 (*Heuristics*) | 40 | none | about 15 min (at most 2 min per run) |
+| Heuristic H2 (*Heuristics*) | 40 | none | about 7.6 h (at most 2 h per run, on M_01_268_4) |
+| Lagrangian relaxation (*Lagrangian*) | 40 | none | not reported in the workbook (1-2 min per run on G = 10 instances) |
+| Matheuristics R, C and G (*Matheuristic all*) | 5600 (10 or 20 repetitions per configuration) | 3600 s per repetition, 360 s per Gurobi call | about 3900 h |
 
-
-
-
-
-
+A single execution of a matheuristic script with the default settings performs 20 repetitions (`--n-iter`) and can therefore take up to about 20 hours.

@@ -15,9 +15,9 @@ parser.add_argument('--n-iter', type=int, default=20, help="Number of repetition
 parser.add_argument('--max-time', type=float, default=3600, help="Time limit of each repetition (s)")
 parser.add_argument('--coeff0', type=float, default=0.15, help="Initial fixing coefficient")
 parser.add_argument('--step', type=float, default=0.10, help="Update step of the fixing coefficient")
-parser.add_argument('--limits', type=int, nargs=4, default=None,
-                    help="Iterations without improvement before each coefficient update "
-                         "(default depends on the granularity G, see 'limits' below)")
+parser.add_argument('--policy', type=int, choices=[1, 2, 3, 4, 5], default=None,
+                    help="Updating policy (default: best policy for the granularity G, "
+                         "i.e. 1 for G=10, 2 for G=05, 3 for G=03, 4 for G=02 and 5 for G=01)")
 parser.add_argument('--n-slices', type=int, default=5, help="Number of geographical slices (variant G3)")
 args = parse_args(parser)
 name = args.instance_name
@@ -41,10 +41,10 @@ W = args.W              # [1/beta, 1], score for AOI
 seeds_G1 = [5, 85, 582, 133, 3371, 8759, 17803, 24093, 69350, 81604, 59, 855, 5482, 1233, 39371, 859, 1803, 94093, 6930, 8104]
 seeds_G2 = [9, 54, 782, 533, 8371, 2759, 27803, 44093, 89350, 11604, 97, 504, 7282, 33, 80371, 24759, 7803, 4093, 8950, 1604]
 seeds_G3 = [5, 85, 582, 133, 3371, 8759, 17803, 24093, 69350, 81604, 509, 835, 5782, 1833, 371, 80759, 86803, 2403, 6950, 8604]
-ttype = {'01': 'VLR', '02': 'LR', '03': 'MR', '05': 'HR', '10': 'VHR'}
-limits = {'VHR': [160, 80, 40, 20], 'HR': [80, 40, 20, 10], 'MR': [40, 20, 10, 5], 'LR': [20, 10, 5, 2], 'VLR': [10, 5, 2, 1]}
-if args.limits is not None:
-    limits[ttype[G]] = args.limits
+policies = {1: [160, 80, 40, 20], 2: [80, 40, 20, 10], 3: [40, 20, 10, 5], 4: [20, 10, 5, 2], 5: [10, 5, 2, 1]}  # max n. of iterations without improvement for each coefficient value
+best_policy = {'10': 1, '05': 2, '03': 3, '02': 4, '01': 5}  # default updating policy for each granularity
+policy = args.policy if args.policy is not None else best_policy[G]
+limits = policies[policy]
 if not 1 <= args.n_iter <= len(seeds_G1):
     parser.error(f"--n-iter must be between 1 and {len(seeds_G1)} (one repetition per available seed)")
 
@@ -171,7 +171,7 @@ for k in range(n_iter):
     while tf < args.max_time:
 
         iter_count += 1
-        if iter_w_imp == limits[ttype[G]][ilim]:
+        if iter_w_imp == limits[ilim]:
             if ilim == 3:
                 break
             ilim += 1
@@ -239,7 +239,7 @@ for k in range(n_iter):
     coverture_values.append(coverture)
 
     # Save partial solutions
-    g = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+    g = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
     g.write(f'Objective Value = {obj} \n')
     g.write(f'Number of PI covered = {coverture} \n')
     g.write(f'Total execution time = {tf} \n')
@@ -252,13 +252,13 @@ for k in range(n_iter):
     g.close()
 
     # Save final solution
-    f = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}(sol)_{name}.txt", "a")
+    f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}(sol)_{name}.txt", "a")
     f.write(f'Objective Value = {obj} \n')
     for i in selected:
         f.write("%d\n" % i)
     f.close()
 
-f = open(args.output_dir / f"{ttype[G]}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
+f = open(args.output_dir / f"P{policy}_{coeff_0}_{step}_{variant}_{name}.txt", "a")
 f.write('Max objective function = ' + str(max(obj_values)) + '\n')
 f.write('Max number of PI covered = ' + str(max(coverture_values)) + '\n')
 f.write('Max number of iterations = ' + str(max(iter_values)) + '\n')

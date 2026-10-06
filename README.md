@@ -83,7 +83,7 @@ The table below reports the computational effort required to reproduce each shee
 
 | Experiment (workbook sheet) | Runs | Time limits | Total time |
 |---|---|---|---|
-| ILP model (*ILP*) | 40 | 3600 s per run | about 24 h (15 runs reach the time limit; 7 runs on G = 01 instances report no time) |
+| ILP model (*ILP*) | 40 | 3600 s per run | about 24 h (15 runs reach the time limit; 7 runs on G = 01 instances exceed the available memory) |
 | Heuristic H1 (*Heuristics*) | 40 | none | about 15 min (at most 2 min per run) |
 | Heuristic H2 (*Heuristics*) | 40 | none | about 7.6 h (at most 2 h per run, on M_01_268_4) |
 | Lagrangian relaxation (*Lagrangian*) | 40 | none | not reported in the workbook (1-2 min per run on G = 10 instances) |

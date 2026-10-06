@@ -11,6 +11,8 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.base import clone
 from joblib import dump
 
 # Define INSTANCE
@@ -55,21 +57,20 @@ f = open(f"MAE_.txt", "w")
 fold = -1
 y_all_pred = np.zeros(y.shape)
 
+t0 = time.time()  # start of the cross-validation
 for train_index, test_index in kf.split(X, y):
     fold = fold + 1
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
-    if model_name in ["knn", "linear_regression"]:
-        scaler = StandardScaler()
-        X_train = scaler.fit_transform(X_train)
-        X_test = scaler.transform(X_test)
     f.write('TRAIN: ' + str(train_index)+'\n')
     f.write('TEST: ' + str(test_index)+'\n')
 
     t1 = time.time()
-    model = algorithm[model_name]
+    model = clone(algorithm[model_name])
+    if model_name in ["knn", "linear_regression"]:
+        model = make_pipeline(StandardScaler(), model)  # the fitted scaler is saved together with the model
     model.fit(X_train, y_train)
-    dump(model, f'{model_name}.joblib')
+    dump(model, f'{model_name}_fold{fold}.joblib')
     y_pred = model.predict(X_test)
     t2 = time.time()
 
@@ -83,7 +84,7 @@ t3 = time.time()
 f.write('\nGlobal MAE = ' + str(mean_absolute_error(y, y_all_pred)))
 f.write('\nGlobal MAPE = ' + str(mean_absolute_percentage_error(y, y_all_pred)))
 f.write('\nGlobal MSE = ' + str(mean_squared_error(y, y_all_pred)))
-f.write(f'\nTime = {t3-t1}')
+f.write(f'\nTime = {t3-t0}')
 f.close()
 np.savetxt("y_all_pred_noantennas.txt", y_all_pred)
 

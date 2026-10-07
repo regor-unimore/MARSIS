@@ -1,0 +1,16 @@
+# Python packages used for the experiments of the paper (Python 3.8.10, Windows 10 Pro)
+
+# Optimization codes (the gurobipy package includes the Gurobi 11.0.1 solver, which requires a license)
+gurobipy==11.0.1
+numpy==1.23.1
+matplotlib==3.6.0
+
+# Machine learning codes
+pandas==1.4.3
+scikit-learn==1.1.2
+joblib==1.1.0
+tensorflow==2.13.0
+keras==2.13.1
+
+# Comparison of the results with the workbook (scripts/compare_results.py)
+openpyxl==3.1.2

@@ -99,6 +99,7 @@ python scripts/setup_data.py --all       # or only some instances, e.g. M_10_134
 Each code takes the name of the instance (and the variant, for the matheuristics) and saves the results in `output/`. The default parameters are those of the paper; all the options (e.g., `--N`, `--W`, `--policy`) are listed with `--help`.
 
 ```
+python "scripts/Opt - Code/h1.py" --help                 # options and default values
 python "scripts/Opt - Code/h2.py" M_10_134_4
 python "scripts/Opt - Code/ilp_model.py" M_10_134_4
 python "scripts/Opt - Code/matheuristic_r.py" M_10_134_4 R2
@@ -135,7 +136,7 @@ python "scripts/ML - Code/test_kfold.py" knn     # or linear_regression, decisio
 python "scripts/ML - Code/test_kfold_dnn_keras.py"
 ```
 
-The models of each fold, the error metrics and the predictions are saved in `output/ML/`.
+The models of each fold, the error metrics and the predictions are saved in `output/ML/`; as for the optimization codes, the options are listed with `--help`.
 
 The files (3) and (4) of an instance, i.e. the quality with which each PI is covered in each observation, are obtained from the predictions (`data/Opt - General Data/predictions.txt`) and saved in `output/Instances/`:
 

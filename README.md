@@ -117,9 +117,9 @@ Note that the Lagrangian relaxation and the matheuristics start from the solutio
 python "scripts/Opt - Code/h1.py" M_10_134_4 --N 1 --output-dir output/N1
 ```
 
-Computational effort required to run all the tests reported in `results/computational_results.xlsx`, on the hardware above. The number of runs is the number of tests in each sheet of the workbook; all runs are single-threaded and can be executed in parallel.
+Computational effort required to run all the tests reported in `results/computational_results.xlsx`, on the hardware above. The number of runs is the number of tests in each sheet of the results file; all runs are single-threaded and can be executed in parallel.
 
-| Workbook sheet | Runs | Total time |
+| Sheet of the results file | Runs | Total time |
 |---|---|---|
 | ILP | 40 | about 24 h (3600 s time limit per run) |
 | Heuristics | 80 | about 8 h |

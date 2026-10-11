@@ -86,6 +86,8 @@ The experiments were run on a single thread of an Intel(R) Xeon(R) CPU E5-2640 v
 ***Installation***
 --
 
+All the commands in this README must be run from the root of the repository.
+
 ```
 python3.8 -m venv .venv                  # on Windows: py -3.8 -m venv .venv
 source .venv/bin/activate                # on Windows: .venv\Scripts\activate

@@ -21,7 +21,7 @@ data/
   Opt - General Data/      general data files, used in combination with each instance
   Opt - Instances/         the 25 optimization instances (one .zip archive per instance)
 results/
-  Computational Results.xlsx   results reported in the paper
+  computational_results.xlsx   results reported in the paper
   experiments.csv              list of all the experiments, with the commands that run them
 scripts/
   ML - Code/               training of the regression models and quality of the observations
@@ -110,7 +110,7 @@ Note that the Lagrangian relaxation and the matheuristics start from the solutio
 ***Reproducing the computational results***
 --
 
-`results/experiments.csv` lists all the experiments reported in the paper, whose results are collected in `results/Computational Results.xlsx`. For each experiment, it gives the exact command, the parameters (N, W, V, variant, policy, seeds, time limits) and the output files. The column `depends_on` indicates the experiments that need the solution of H2 for the same instance and N, which must be run first. For example, heuristic H1 on M_10_134_4 with N = 1 is run with:
+`results/experiments.csv` lists all the experiments reported in the paper, whose results are collected in `results/computational_results.xlsx`. For each experiment, it gives the exact command, the parameters (N, W, V, variant, policy, seeds, time limits) and the output files. The column `depends_on` indicates the experiments that need the solution of H2 for the same instance and N, which must be run first. For example, heuristic H1 on M_10_134_4 with N = 1 is run with:
 
 ```
 python "scripts/Opt - Code/h1.py" M_10_134_4 --N 1 --output-dir output/N1

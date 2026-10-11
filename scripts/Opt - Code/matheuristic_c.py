@@ -188,7 +188,7 @@ for k in range(args.first_iter - 1, args.first_iter - 1 + n_iter):
             range_unfix = range(w2, w2 + delta)
         if variant == 'C3':
             w = [np.random.randint(nO - delta) for _ in range(n_windows)]  # new starting times for the windows
-            range_unfix = [j for i in w for j in range(i, i + delta)]
+            range_unfix = {j for i in w for j in range(i, i + delta)}  # set: fast membership test
 
         for o in range(nO):
             if o in range_unfix:  # variables to let free

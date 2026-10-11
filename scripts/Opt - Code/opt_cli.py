@@ -58,6 +58,6 @@ def parse_args(parser):
             args.initial_solution = args.output_dir / f"H2_{name}.txt"
         if not args.initial_solution.is_file():
             parser.error(f"initial solution {args.initial_solution} not found. "
-                         f"Run heuristic H2 first with: python \"scripts/Opt - Code/H2.py\" {name}")
+                         f"Run heuristic H2 first with: python \"scripts/Opt - Code/h2.py\" {name}")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     return args

@@ -3,7 +3,7 @@ import numpy as np
 import time
 import gurobipy as gp
 from gurobipy import GRB
-from opt_cli import make_parser, parse_args, add_gurobi_args, add_initial_solution_arg
+from opt_cli import make_parser, parse_args, add_gurobi_args, add_initial_solution_arg, positive_int, positive_float
 
 # Define INSTANCE
 parser = make_parser("Code to solve the C matheuristics")
@@ -12,14 +12,24 @@ add_gurobi_args(parser, time_limit=360)
 add_initial_solution_arg(parser)
 parser.add_argument('--n-iter', type=int, default=20, help="Number of repetitions (one per random seed)")
 parser.add_argument('--first-iter', type=int, default=1, help="Index of the first repetition, i.e. of the first seed used")
-parser.add_argument('--max-time', type=float, default=3600, help="Time limit of each repetition (s)")
+parser.add_argument('--max-time', type=positive_float, default=3600, help="Time limit of each repetition (s)")
 parser.add_argument('--coeff0', type=float, default=0.15, help="Initial fixing coefficient")
 parser.add_argument('--step', type=float, default=0.10, help="Update step of the fixing coefficient")
 parser.add_argument('--policy', type=int, choices=[1, 2, 3, 4, 5], default=None,
                     help="Updating policy (default: best policy for the granularity G, "
                          "i.e. 1 for G=10, 2 for G=05, 3 for G=03, 4 for G=02 and 5 for G=01)")
-parser.add_argument('--n-windows', type=int, default=5, help="Number of time windows (variant C3)")
-args = parse_args(parser)
+parser.add_argument('--n-windows', type=positive_int, default=5, help="Number of time windows (variant C3)")
+N_SEEDS = 20  # number of random seeds, i.e. of repetitions, available for each variant
+
+
+def check_args(args):
+    if not (args.first_iter >= 1 and args.n_iter >= 1 and args.first_iter + args.n_iter - 1 <= N_SEEDS):
+        parser.error(f"--first-iter and --n-iter must select repetitions between 1 and {N_SEEDS} (one per available seed)")
+    if not (args.coeff0 > 0 and args.step >= 0 and args.coeff0 + 3 * args.step < 1):
+        parser.error("--coeff0 and --step must satisfy coeff0 > 0, step >= 0 and coeff0 + 3*step < 1")
+
+
+args = parse_args(parser, check_args)
 name = args.instance_name
 variant = args.variant_name
 
@@ -45,8 +55,7 @@ policies = {1: [160, 80, 40, 20], 2: [80, 40, 20, 10], 3: [40, 20, 10, 5], 4: [2
 best_policy = {'10': 1, '05': 2, '03': 3, '02': 4, '01': 5}  # default updating policy for each granularity
 policy = args.policy if args.policy is not None else best_policy[G]
 limits = policies[policy]
-if not (args.first_iter >= 1 and args.n_iter >= 1 and args.first_iter + args.n_iter - 1 <= len(seeds_C1)):
-    parser.error(f"--first-iter and --n-iter must select repetitions between 1 and {len(seeds_C1)} (one per available seed)")
+assert all(len(seeds) == N_SEEDS for seeds in (seeds_C1, seeds_C2, seeds_C3))
 
 #  Information on PIs
 cPIAV = []

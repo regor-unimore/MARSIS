@@ -1,5 +1,6 @@
-from math import *
+from math import floor, ceil, sqrt
 import argparse
+import re
 from pathlib import Path
 import pandas as pd
 
@@ -25,6 +26,11 @@ parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "I
                     help="Directory where files (3) and (4) are saved")
 args = parser.parse_args()
 name = args.instance_name
+if not re.fullmatch(r"M_(01|02|03|05|10)_\d+_[345]", name):
+    parser.error(f"invalid instance name '{name}', expected M_<G>_<L>_<NC> (e.g. M_10_134_4)")
+for path in (args.dataset, args.predictions):
+    if not path.is_file():
+        parser.error(f"file {path} not found")
 
 name_char = name.split('_')
 
@@ -51,6 +57,10 @@ maxAlt = max(altitude)
 
 with open(args.predictions, 'r') as file:
     quality = [float(i) for i in file.readlines()]
+
+if len(time) != nO or len(quality) != nO:
+    parser.error(f"the dataset and the predictions must contain {nO} sampled times "
+                 f"(found {len(time)} and {len(quality)})")
 
 #  PI in observations
 with open(instance_path / f"{name}(2).txt", "r") as file:

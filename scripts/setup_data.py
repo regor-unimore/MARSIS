@@ -22,8 +22,12 @@ parser.add_argument('--instance-dir', type=Path, default=DEFAULT_INSTANCE_DIR,
                     help="Directory containing the instance archives (default: %(default)s)")
 parser.add_argument('--force', action='store_true', help="Re-extract instances that are already extracted")
 args = parser.parse_args()
+if args.all and args.instances:
+    parser.error("specify either instance names or --all, not both")
 
 available = sorted(p.stem for p in args.instance_dir.glob("M_*.zip"))
+if not available:
+    parser.error(f"no instance archives (M_*.zip) found in {args.instance_dir}")
 names = available if args.all else args.instances
 if not names:
     parser.error(f"specify at least one instance or --all. Available instances: {', '.join(available)}")

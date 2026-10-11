@@ -32,6 +32,8 @@ parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "M
 args = parser.parse_args()
 if not args.dataset.is_file():
     parser.error(f"dataset {args.dataset} not found. Download it from the link in data/ML - Data/MARSIS_historical_dataset")
+if not args.orbits_to_remove.is_file():
+    parser.error(f"file {args.orbits_to_remove} not found")
 args.output_dir.mkdir(parents=True, exist_ok=True)
 model_name = args.model_name
 

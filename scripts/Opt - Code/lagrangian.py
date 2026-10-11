@@ -1,6 +1,4 @@
 import time
-import gurobipy as gp
-from gurobipy import GRB
 from opt_cli import make_parser, parse_args, add_initial_solution_arg
 
 # Define INSTANCE

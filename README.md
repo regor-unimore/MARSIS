@@ -111,7 +111,7 @@ Note that the Lagrangian relaxation and the matheuristics start from the solutio
 ***Reproducing the computational results***
 --
 
-`results/experiments.csv` lists all the experiments reported in the paper, whose results are collected in `results/computational_results.xlsx`. For each experiment, it gives the exact command, the parameters (N, W, V, variant, policy, seeds, time limits) and the output files. The column `depends_on` indicates the experiments that need the solution of H2 for the same instance and N, which must be run first. For example, heuristic H1 on M_10_134_4 with N = 1 is run with:
+`results/experiments.csv` lists all the experiments reported in the paper, whose results are collected in `results/computational_results.xlsx`. For each experiment, it gives the exact command, the parameters (N, W, V, variant, policy, repetitions, i.e. the indices of the random seeds defined in each matheuristic code, time limits) and the output files. The column `depends_on` indicates the experiments that need the solution of H2 for the same instance and N, which must be run first. For example, heuristic H1 on M_10_134_4 with N = 1 is run with:
 
 ```
 python "scripts/Opt - Code/h1.py" M_10_134_4 --N 1 --output-dir output/N1

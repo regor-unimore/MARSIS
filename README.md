@@ -119,17 +119,18 @@ Note that the Lagrangian relaxation and the matheuristics start from the solutio
 python "scripts/Opt - Code/h1.py" M_10_134_4 --N 1 --output-dir output/N1
 ```
 
-Running time of a single run on the hardware above, by granularity G (mean, with minimum and maximum in parentheses), computed from `results/computational_results.xlsx`. All runs are single-threaded; the commands of `results/experiments.csv` can be executed in parallel (each matheuristic command performs 10 or 20 repetitions in sequence).
+Running time of a single run (min - max) on the hardware above, taken from `results/computational_results.xlsx`:
 
-| G (km) | ILP model (time limit 1 h) | H1 | H2 | Matheuristics (per repetition, time limit 1 h) |
-|---|---|---|---|---|
-| 10 | 12 min (17 s - 57 min); 1 of 8 runs at the time limit | 1 s | 40 s (7 s - 2 min) | 10 min (39 s - 36 min) |
-| 05 | 14 min (2.5 min - 20 min) for the 4 optimal runs; 4 of 8 at the time limit | 3 s | 2 min (21 s - 6 min) | 29 min (2.5 min - 1 h) |
-| 03 | about 1 h: 5 of 8 at the time limit, the others 46 min - 1 h | 9 s | 6 min (1 min - 19 min) | 51 min (7 min - 1 h) |
-| 02 | about 1 h (all runs at the time limit) | 21 s | 11 min (2 min - 33 min) | 58 min (16 min - 1 h) |
-| 01 | out of memory in 7 of 8 runs (the remaining one: 68 min) | 75 s (30 s - 2 min) | 37 min (6 min - 2 h) | 1 h (38 min - 1 h) |
+| Algorithm (unit) | G = 10 | G = 05 | G = 03 | G = 02 | G = 01 |
+|---|---|---|---|---|---|
+| ILP model (run) | 17 s - 1 h | 153 s - 1 h | 2741 s - 1 h | 1 h | 1 h * |
+| H1 (run) | 1 s - 2 s | 2 s - 5 s | 4 s - 15 s | 10 s - 34 s | 30 s - 120 s |
+| H2 (run) | 7 s - 107 s | 21 s - 345 s | 52 s - 1159 s | 109 s - 1999 s | 346 s - 2 h |
+| Matheuristics (repetition) | 39 s - 2173 s | 147 s - 1 h | 445 s - 1 h | 957 s - 1 h | 2284 s - 1 h |
 
-Overall, reproducing all the results requires about 24 h for the ILP model (excluding the runs that exceed the memory), 8 h for the heuristics and 3900 h for the matheuristics. A single matheuristic command performs 20 repetitions in sequence and can therefore take up to about 20 h.
+\* Only one run: the other seven ILP runs with G = 01 exceed the available memory.
+
+The time limit of 1 h applies to the solver of the ILP model and of the matheuristics. Overall, reproducing all the results takes about 24 h for the ILP model, 8 h for the heuristics and 3900 h for the matheuristics; a matheuristic command runs 20 repetitions in sequence and can take up to about 20 h. All runs are single-threaded and the commands can be run in parallel.
 
 ***Machine learning***
 --

@@ -119,14 +119,17 @@ Note that the Lagrangian relaxation and the matheuristics start from the solutio
 python "scripts/Opt - Code/h1.py" M_10_134_4 --N 1 --output-dir output/N1
 ```
 
-Computational effort required to run all the tests reported in `results/computational_results.xlsx`, on the hardware above. The number of runs is the number of tests in each sheet of the results file; all runs are single-threaded and can be executed in parallel.
+Running time of a single run on the hardware above, by granularity G (mean, with minimum and maximum in parentheses), computed from `results/computational_results.xlsx`. All runs are single-threaded; the commands of `results/experiments.csv` can be executed in parallel (each matheuristic command performs 10 or 20 repetitions in sequence).
 
-| Sheet of the results file | Runs | Total time |
-|---|---|---|
-| ILP | 40 | about 24 h (3600 s time limit per run) |
-| Heuristics | 80 | about 8 h |
-| Lagrangian | 40 | about 1-2 min per run on G = 10 instances |
-| Matheuristic all | 5600 (one per repetition) | about 3900 h (up to 1 h per run) |
+| G (km) | ILP model (time limit 1 h) | H1 | H2 | Matheuristics (per repetition, time limit 1 h) |
+|---|---|---|---|---|
+| 10 | 12 min (17 s - 57 min); 1 of 8 runs at the time limit | 1 s | 40 s (7 s - 2 min) | 10 min (39 s - 36 min) |
+| 05 | 14 min (2.5 min - 20 min) for the 4 optimal runs; 4 of 8 at the time limit | 3 s | 2 min (21 s - 6 min) | 29 min (2.5 min - 1 h) |
+| 03 | about 1 h: 5 of 8 at the time limit, the others 46 min - 1 h | 9 s | 6 min (1 min - 19 min) | 51 min (7 min - 1 h) |
+| 02 | about 1 h (all runs at the time limit) | 21 s | 11 min (2 min - 33 min) | 58 min (16 min - 1 h) |
+| 01 | out of memory in 7 of 8 runs (the remaining one: 68 min) | 75 s (30 s - 2 min) | 37 min (6 min - 2 h) | 1 h (38 min - 1 h) |
+
+Overall, reproducing all the results requires about 24 h for the ILP model (excluding the runs that exceed the memory), 8 h for the heuristics and 3900 h for the matheuristics. A single matheuristic command performs 20 repetitions in sequence and can therefore take up to about 20 h.
 
 ***Machine learning***
 --

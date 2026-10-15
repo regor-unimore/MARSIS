@@ -1,7 +1,7 @@
 """Extract the compressed optimization instances into the layout expected by the scripts.
 
-Each archive data/Opt - Instances/<instance>.zip is extracted into
-data/Opt - Instances/<instance>/, which then contains <instance>(1).txt ... <instance>(4).txt.
+Each archive data/Opt_instances/<instance>.zip is extracted into
+data/Opt_instances/<instance>/, which then contains <instance>(1).txt ... <instance>(4).txt.
 
 Usage:
     python scripts/setup_data.py M_10_134_4 M_10_268_4   # extract selected instances
@@ -13,7 +13,7 @@ import zipfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INSTANCE_DIR = REPO_ROOT / "data" / "Opt - Instances"
+DEFAULT_INSTANCE_DIR = REPO_ROOT / "data" / "Opt_instances"
 
 parser = argparse.ArgumentParser(description="Extract the optimization instances")
 parser.add_argument('instances', nargs='*', help="Names of the instances to extract (e.g. M_10_134_4)")

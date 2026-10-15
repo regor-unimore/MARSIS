@@ -4,8 +4,8 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INSTANCE_DIR = REPO_ROOT / "data" / "Opt - Instances"
-DEFAULT_GENERAL_DIR = REPO_ROOT / "data" / "Opt - General Data"
+DEFAULT_INSTANCE_DIR = REPO_ROOT / "data" / "Opt_instances"
+DEFAULT_GENERAL_DIR = REPO_ROOT / "data" / "Opt_general_data"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "output"
 
 # Class quality weights (set V) used in the paper, depending on the number of quality classes NC
@@ -88,7 +88,7 @@ def parse_args(parser, check=None):
             args.initial_solution = args.output_dir / f"H2_{name}.txt"
         if not args.initial_solution.is_file():
             parser.error(f"initial solution {args.initial_solution} not found. Run heuristic H2 first with: "
-                         f"python \"scripts/Opt - Code/h2.py\" {name} --N {args.N} --output-dir \"{args.output_dir}\"")
+                         f"python scripts/Opt_code/h2.py {name} --N {args.N} --output-dir \"{args.output_dir}\"")
     if check is not None:
         check(args)
     args.output_dir.mkdir(parents=True, exist_ok=True)

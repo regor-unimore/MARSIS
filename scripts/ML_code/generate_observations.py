@@ -16,11 +16,11 @@ parser = argparse.ArgumentParser(description="Code to compute the quality of the
                                              "(files (3) and (4) of an instance) from the ML predictions",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('instance_name', type=str, help="Name of the instance (e.g. M_10_134_4)")
-parser.add_argument('--dataset', type=Path, default=REPO_ROOT / "data" / "ML - Data" / "MARSIS_dataset_2023_2025.zip",
+parser.add_argument('--dataset', type=Path, default=REPO_ROOT / "data" / "ML_data" / "MARSIS_dataset_2023_2025.zip",
                     help="Dataset for the future planning")
-parser.add_argument('--predictions', type=Path, default=REPO_ROOT / "data" / "Opt - General Data" / "predictions.txt",
+parser.add_argument('--predictions', type=Path, default=REPO_ROOT / "data" / "Opt_general_data" / "predictions.txt",
                     help="ML predictions for each sampled time")
-parser.add_argument('--instance-dir', type=Path, default=REPO_ROOT / "data" / "Opt - Instances",
+parser.add_argument('--instance-dir', type=Path, default=REPO_ROOT / "data" / "Opt_instances",
                     help="Directory containing the extracted instance folders (files (1) and (2) are read from here)")
 parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "Instances",
                     help="Directory where files (3) and (4) are saved")

@@ -6,4 +6,4 @@ File: MARSIS_historical_dataset.zip (508,032,099 bytes), containing MARSIS_histo
 SHA-256: 0ff46cf5b71c45bc720109e9501f7a2a414c2078b3c148198050caeb00083bb2
 MD5: 51b1baf7b7d9406bd10e340f4346021b
 
-Download MARSIS_historical_dataset.zip into this folder (data/ML - Data/): the training scripts read it directly, without extraction.
+Download MARSIS_historical_dataset.zip into this folder (data/ML_data/): the training scripts read it directly, without extraction.

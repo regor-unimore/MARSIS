@@ -1,1 +1,9 @@
-https://drive.google.com/file/d/1fAuaNEF8dT7ikIMnCSgEUIyA7NWneU5O/view?usp=drive_link
+Historical MARSIS dataset used to train the machine learning models, deposited on Zenodo.
+
+DOI: https://doi.org/10.5281/zenodo.23319206
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+File: MARSIS_historical_dataset.zip (508,032,099 bytes), containing MARSIS_historical_dataset.csv (4,230,657 rows, 25 columns, separated by ';')
+SHA-256: 0ff46cf5b71c45bc720109e9501f7a2a414c2078b3c148198050caeb00083bb2
+MD5: 51b1baf7b7d9406bd10e340f4346021b
+
+Download MARSIS_historical_dataset.zip into this folder (data/ML - Data/): the training scripts read it directly, without extraction.

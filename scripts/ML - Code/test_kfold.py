@@ -24,14 +24,14 @@ parser = argparse.ArgumentParser(description="Code to train the regression model
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('model_name', type=str, choices=['linear_regression', 'knn', 'decision_tree', 'gr_boosting', 'random_forest'],
                     help="Regression model to train")
-parser.add_argument('--dataset', type=Path, default=ML_DATA_DIR / "MARSIS_historical_dataset.csv",
-                    help="Historical dataset (to be downloaded from the link in data/ML - Data/MARSIS_historical_dataset)")
+parser.add_argument('--dataset', type=Path, default=ML_DATA_DIR / "MARSIS_historical_dataset.zip",
+                    help="Historical dataset (to be downloaded from https://doi.org/10.5281/zenodo.23319206)")
 parser.add_argument('--orbits-to-remove', type=Path, default=ML_DATA_DIR / "orbit_to_remove",
                     help="List of the orbits to exclude from the training")
 parser.add_argument('--output-dir', type=Path, default=REPO_ROOT / "output" / "ML", help="Directory where results are saved")
 args = parser.parse_args()
 if not args.dataset.is_file():
-    parser.error(f"dataset {args.dataset} not found. Download it from the link in data/ML - Data/MARSIS_historical_dataset")
+    parser.error(f"dataset {args.dataset} not found. Download it from https://doi.org/10.5281/zenodo.23319206")
 if not args.orbits_to_remove.is_file():
     parser.error(f"file {args.orbits_to_remove} not found")
 args.output_dir.mkdir(parents=True, exist_ok=True)
